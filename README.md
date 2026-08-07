@@ -115,8 +115,8 @@ skillwallet/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Nitheesh2304/nitheesh.git
-cd nitheesh
+git clone https://github.com/sureshraj8289-creator/raja.git
+cd raja
 ```
 
 ---
@@ -260,7 +260,7 @@ npm run preview # Preview production build
 
 ## 👨‍💻 Author
 
-**Nitheesh** — [@Nitheesh2304](https://github.com/Nitheesh2304)
+**Suresh Raj** — [@sureshraj8289-creator](https://github.com/sureshraj8289-creator)
 
 ---
 
