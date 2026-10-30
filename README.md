@@ -1,15 +1,127 @@
 # 🎫 SkillWallet — Complaint Management & Transparency System
 
-A full-stack web application for managing and tracking complaints with role-based access for **Users**, **Agents**, and **Admins**. Built with **React + Vite** on the frontend and **Node.js + Express + MongoDB** on the backend.
+**SkillWallet** is your one-stop destination for effortless complaint management and resolution. Designed and implemented with clean MERN Stack architecture (MongoDB, Express, React Vite, Node.js) and modern **Glassmorphism UI** visual design aesthetics.
 
 ---
 
-## 📸 Overview
+## DEMO AND GITHUB REPOSITORY LINKS
 
-SkillWallet provides a transparent, streamlined platform where:
-- **Users** can submit and track complaints in real time
-- **Agents** can manage and resolve assigned complaints
-- **Admins** have full oversight — managing users, agents, and system analytics
+> [!IMPORTANT]
+> - 📂 **Google Drive Resources**: https://drive.google.com/drive/folders/14pZfqHlber7IrIwkIBYtW5BlLwQ78jCa?usp=sharing
+> - 🐙 **GitHub Repository**: https://github.com/Nitheesh2304/nitheesh
+> - 🔑 **Pre-configured Demo Accounts**:
+>   - **Admin Account Email**: `admin@complaint.com` | **Password**: `password123`
+>   - **Agent Account Email**: `agent@complaint.com` | **Password**: `password123`
+>   - **User Account Email**: `user@complaint.com` | **Password**: `password123`
+
+---
+
+# 1. PROJECT ARCHITECTURE
+
+## TECHNICAL ARCHITECTURE
+
+The application follows a decoupled client-server architecture:
+
+```
++-----------------------------------------------------------------------+
+|                            FRONTEND LAYER                             |
+|  - React 18 (Vite)                                                    |
+|  - Glassmorphism Design Tokens & Vanilla CSS System                   |
+|  - Context API (AuthContext, ComplaintContext)                        |
+|  - React Router DOM Navigation                                        |
+|  - Pages: Home, Login, Register, User Dashboard, Agent Dashboard,     |
+|    Admin Dashboard, Complaint Details, Feedback                       |
++-----------------------------------------------------------------------+
+                                   |
+                                   | REST API (HTTP / JSON / JWT)
+                                   v
++-----------------------------------------------------------------------+
+|                            BACKEND LAYER                              |
+|  - Node.js & Express.js REST API Server                               |
+|  - JWT Authentication & Bcrypt Hashing Middleware                     |
+|  - Controllers: AuthController, ComplaintController, AgentController, |
+|    AdminController, ChatController, FeedbackController                |
++-----------------------------------------------------------------------+
+                                   |
+                                   | Mongoose ORM
+                                   v
++-----------------------------------------------------------------------+
+|                            DATABASE LAYER                             |
+|  - MongoDB (Users, Complaints, Messages, Feedback)                    |
++-----------------------------------------------------------------------+
+```
+
+---
+
+## ER DIAGRAM
+
+```mermaid
+erDiagram
+    USER ||--o{ COMPLAINT : "submits / manages"
+    USER ||--o{ MESSAGE : "sends"
+    USER ||--o{ FEEDBACK : "provides"
+    COMPLAINT ||--o{ MESSAGE : "contains"
+    COMPLAINT ||--o| FEEDBACK : "receives"
+    USER ||--o{ COMPLAINT : "assigned to (Agent)"
+
+    USER {
+        string _id PK
+        string name
+        string email
+        string password
+        string role "USER | AGENT | ADMIN"
+        string department
+        string phone
+        date createdAt
+    }
+
+    COMPLAINT {
+        string _id PK
+        string ticketId
+        string title
+        string description
+        string category
+        string priority "Low | Medium | High | Urgent"
+        string status "Pending | In Progress | Resolved | Rejected"
+        string userId FK
+        string agentId FK
+        string resolutionNotes
+        date createdAt
+    }
+
+    MESSAGE {
+        string _id PK
+        string complaintId FK
+        string senderId FK
+        string message
+        date timestamp
+    }
+
+    FEEDBACK {
+        string _id PK
+        string complaintId FK
+        string userId FK
+        number rating
+        string comment
+        string resolutionSatisfaction
+        number responseTimeRating
+        date createdAt
+    }
+```
+
+---
+
+## FEATURES
+
+1. **Comprehensive Complaint Lifecycle Management**: End-to-end tracking of complaints from submission (`Pending`) to agent assignment (`In Progress`), resolution (`Resolved`), or rejection with full history audit logs.
+2. **Role-Based Access Control (RBAC)**: Dedicated permissions and tailored dashboards for **Users**, **Agents**, and **Admins**.
+3. **Interactive Complaint Chat & Messaging**: Direct line of communication between users and assigned agents for real-time ticket updates and resolution details.
+4. **Feedback & Rating System**: Post-resolution satisfaction ratings (1-5 stars) and qualitative feedback collected to measure service performance.
+5. **Unified Admin Console (`admin@complaint.com` / `password123`)**:
+   - Overall system analytics & metrics tracking.
+   - User & Agent account management.
+   - Intelligent ticket triage & agent assignment controls.
+6. **Glassmorphism UI Aesthetics**: Responsive interface built with custom CSS variables, sleek dark visual elements, smooth micro-animations, and instant feedback notifications.
 
 ---
 
@@ -44,7 +156,7 @@ SkillWallet provides a transparent, streamlined platform where:
 skillwallet/
 ├── server/
 │   ├── config/
-│   │   └── db.js                  # MongoDB connection
+│   │   └── db.js                  # MongoDB connection & diagnostics
 │   ├── controllers/
 │   │   ├── authController.js      # Register / Login / JWT
 │   │   ├── complaintController.js # Complaint CRUD
@@ -71,7 +183,7 @@ skillwallet/
 │   ├── utils/
 │   │   ├── mailer.js              # Email utility
 │   │   └── seed.js                # Database seeder
-│   ├── server.js                  # Entry point
+│   ├── server.js                  # Express entry point
 │   └── .env                       # Environment variables
 │
 └── client/
@@ -95,7 +207,7 @@ skillwallet/
     │   │   ├── ComplaintDetailsPage.jsx
     │   │   └── FeedbackPage.jsx
     │   ├── services/
-    │   │   └── api.js              # Axios API calls
+    │   │   └── api.js              # Axios API instance
     │   ├── App.jsx
     │   └── main.jsx
     └── index.html
@@ -107,19 +219,15 @@ skillwallet/
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) v18+
-- [MongoDB](https://www.mongodb.com/) (local or Atlas)
+- [MongoDB](https://www.mongodb.com/) (local or MongoDB Atlas)
 - Git
-
----
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/sureshraj8289-creator/raja.git
-cd raja
+git clone https://github.com/Nitheesh2304/nitheesh.git
+cd nitheesh
 ```
-
----
 
 ### 2. Setup Server (Backend)
 
@@ -128,11 +236,11 @@ cd server
 npm install
 ```
 
-Create a `.env` file in the `server/` folder:
+Create a `.env` file in the `server/` directory:
 
 ```env
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/skillwallet
+MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 EMAIL_USER=your_email@gmail.com
 EMAIL_PASS=your_email_app_password
@@ -141,16 +249,15 @@ EMAIL_PASS=your_email_app_password
 Start the server:
 
 ```bash
-# Development (with auto-reload)
+# Development mode (with nodemon)
 npm run dev
+
+# Seed Database with sample users & complaints
+npm run seed
 
 # Production
 npm start
 ```
-
-> Server runs on: `http://localhost:5000`
-
----
 
 ### 3. Setup Client (Frontend)
 
@@ -160,107 +267,29 @@ npm install
 npm run dev
 ```
 
-> Client runs on: `http://localhost:5173`
-
----
-
-### 4. Seed the Database (Optional)
-
-To populate the database with sample data:
-
-```bash
-cd server
-npm run seed
-```
-
----
-
-## 🔐 User Roles & Access
-
-| Role | Access |
-|------|--------|
-| **USER** | Register, submit complaints, track status, give feedback |
-| **AGENT** | View & manage assigned complaints, chat with users |
-| **ADMIN** | Full access — manage users, agents, view all complaints & analytics |
-
 ---
 
 ## 📡 API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register a new user |
-| POST | `/api/auth/login` | Login & get JWT token |
-| GET | `/api/complaints` | Get all complaints |
-| POST | `/api/complaints` | Submit a new complaint |
-| GET | `/api/complaints/:id` | Get complaint details |
-| PUT | `/api/complaints/:id` | Update a complaint |
-| GET | `/api/agents` | Get all agents |
-| GET | `/api/admin` | Admin dashboard data |
-| POST | `/api/chat` | Send a chat message |
-| POST | `/api/feedback/:id` | Submit feedback for a complaint |
-| GET | `/api/health` | Health check |
-
----
-
-## 🌐 Frontend Routes
-
-| Route | Access | Page |
-|-------|--------|------|
-| `/` | Public | Home Page |
-| `/login` | Public | Login Page |
-| `/register` | Public | Register Page |
-| `/dashboard` | USER, ADMIN | User Dashboard |
-| `/agent` | AGENT, ADMIN | Agent Dashboard |
-| `/admin` | ADMIN only | Admin Dashboard |
-| `/complaints/:id` | Authenticated | Complaint Details |
-| `/feedback/:id` | USER only | Feedback Page |
-
----
-
-## ⚙️ Environment Variables
-
-| Variable | Description |
-|----------|-------------|
-| `PORT` | Backend server port (default: 5000) |
-| `MONGO_URI` | MongoDB connection string |
-| `JWT_SECRET` | Secret key for JWT tokens |
-| `EMAIL_USER` | Email address for notifications |
-| `EMAIL_PASS` | Email app password (Gmail app password) |
-
----
-
-## 📦 Scripts
-
-### Server (Backend)
-```bash
-npm run dev    # Start with auto-reload
-npm start      # Start production server
-npm run seed   # Seed database with sample data
-```
-
-### Client (Frontend)
-```bash
-npm run dev     # Start development server
-npm run build   # Build for production
-npm run preview # Preview production build
-```
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch: `git checkout -b feature/your-feature`
-3. Commit your changes: `git commit -m "Add your feature"`
-4. Push to the branch: `git push origin feature/your-feature`
-5. Open a Pull Request
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| POST | `/api/auth/register` | Register new user | Public |
+| POST | `/api/auth/login` | Login & receive JWT | Public |
+| GET | `/api/complaints` | Get user complaints | Authenticated |
+| POST | `/api/complaints` | Submit new complaint | USER |
+| GET | `/api/complaints/:id` | Get complaint details | Authenticated |
+| PUT | `/api/complaints/:id` | Update complaint status | AGENT / ADMIN |
+| GET | `/api/agents` | Get all agents | ADMIN |
+| GET | `/api/admin` | Admin dashboard data | ADMIN |
+| POST | `/api/chat` | Send chat message | Authenticated |
+| POST | `/api/feedback/:id` | Submit feedback | USER |
+| GET | `/api/health` | System health check | Public |
 
 ---
 
 ## 👨‍💻 Author
 
-**Suresh Raj** — [@sureshraj8289-creator](https://github.com/sureshraj8289-creator)
+**Nitheesh** — [@Nitheesh2304](https://github.com/Nitheesh2304)
 
 ---
 
