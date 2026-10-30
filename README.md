@@ -8,7 +8,7 @@
 
 > [!IMPORTANT]
 > - 📂 **Google Drive Resources**: https://drive.google.com/drive/folders/14pZfqHlber7IrIwkIBYtW5BlLwQ78jCa?usp=sharing
-> - 🐙 **GitHub Repository**: https://github.com/Nitheesh2304/nitheesh
+> - 🐙 **GitHub Repository**: https://github.com/sureshraj8289-creator/Online_complaint
 > - 🔑 **Pre-configured Demo Accounts**:
 >   - **Admin Account Email**: `admin@complaint.com` | **Password**: `password123`
 >   - **Agent Account Email**: `agent@complaint.com` | **Password**: `password123`
