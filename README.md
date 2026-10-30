@@ -7,7 +7,7 @@
 ## DEMO AND GITHUB REPOSITORY LINKS
 
 > [!IMPORTANT]
-> - 📂 **Google Drive Resources**: https://drive.google.com/drive/folders/14pZfqHlber7IrIwkIBYtW5BlLwQ78jCa?usp=sharing
+> - 📂 **Google Drive Resources**: https://drive.google.com/drive/folders/1b8oXMlsQlIFOY8SmV-nF8aI5zSrQ9xS6?usp=sharing
 > - 🐙 **GitHub Repository**: https://github.com/sureshraj8289-creator/Online_complaint
 > - 🔑 **Pre-configured Demo Accounts**:
 >   - **Admin Account Email**: `admin@complaint.com` | **Password**: `password123`
